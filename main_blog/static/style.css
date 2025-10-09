@@ -12,6 +12,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+#checked-btn{
+  cursor: pointer;
+  font-size: 20px;
+}
+
 /* ===== Navbar ===== */
 .navbar {
   background: #2563eb;

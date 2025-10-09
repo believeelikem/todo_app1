@@ -12,8 +12,10 @@ def index(request):
 
 def view_task(request,id):
     task = Todo.objects.get(id = id)
-    
-    return render(request,"view_task.html")
+    context = {
+        "task":task
+    }    
+    return render(request,"view_task.html",context)
 
 def create_task(request):
     if request.method == "POST":
@@ -24,3 +26,39 @@ def create_task(request):
         task.save()       
         return redirect("index")      
     return render(request,"add_task.html")
+
+def edit_task(request,id):
+    task = Todo.objects.get(id = id)
+    if request.method == "POST":
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        
+        task.title = title
+        task.description = description       
+        task.save()       
+        return redirect("index")
+    context = {
+        'task':task
+    }      
+    return render(request,"edit_task.html",context)
+
+def check_uncheck(request,id):
+    task = Todo.objects.get(id = id)
+    
+    if not task.completed:
+        task.completed = True
+    else:
+        task.completed = False
+    task.save()
+    return redirect("index")
+
+def delete_task(request,id):
+    task = Todo.objects.get(id= id)
+    task.delete()
+    return redirect("index")
+    
+def delete_all_completed(request):
+    tasks = Todo.objects.filter(completed = True)
+    for task in tasks:
+        task.delete()
+    return redirect("index")
