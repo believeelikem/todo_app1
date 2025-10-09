@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Edit page {%endblock title%}
+{% block body %}
+  <main class="main
+  <main class="main-content">
+    <h1 class="page-title">Edit Task</h1>
+
+    <section class="form-card">
+      <form class="task-form">
+        <label>Title</label>
+        <input type="text" name="title" value="Finish README for project" required>
+
+        <label>Description</label>
+        <textarea name="description" rows="5">Add usage, install steps and examples.</textarea>
+
+        <label>Due date</label>
+        <input type="date" name="due_date" value="2025-10-15">
+
+        <label>Status</label>
+        <select name="status">
+          <option value="pending">Pending</option>
+          <option value="in_progress">In Progress</option>
+          <option value="completed">Completed</option>
+        </select>
+
+        <div class="form-actions">
+          <button type="submit" class="btn primary">Update Task</button>
+          <a class="btn ghost" href="index.html">Cancel</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+{% endblock body%}

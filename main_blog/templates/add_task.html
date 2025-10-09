@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Home page {%endblock title%}
+{% block body %}
+  <main class="main
+  <main class="main-content">
+    <h1 class="page-title">Add New Task</h1>
+
+    <section class="form-card">
+      <form class="task-form" method="POST">
+        {% csrf_token %}
+        <label>Title</label>
+        <input type="text" name="title" placeholder="Enter task title" required>
+
+        <label>Description</label>
+        <textarea name="description" rows="5" placeholder="Details..."></textarea>
+
+        <!-- <label>Due date</label>
+        <input type="date" name="due_date"> -->
+
+        <div class="form-actions">
+          <button type="submit" class="btn primary">Save Task</button>
+          <a class="btn ghost" href="index.html">Cancel</a>
+        </div>
+      </form>
+    </section>
+  </main>
+{% endblock body%}

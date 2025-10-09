@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}  {% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'style.css'%}">
+</head>
+<body>
+    <nav class="navbar">
+    <div class="nav-inner">
+      <div class="logo">📝 To-Do App</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="add_task.html">Add Task</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </div>
+  </nav>
+  {% block body %}
+
+  {% endblock body %}
+
+  <footer class="site-footer">
+    <p>© 2025 To-Do — Built by Elikem </p>
+  </footer>
+    
+</body>
+</html>

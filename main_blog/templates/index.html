@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Home page {%endblock title%}
+{% block body %}
+  <main class="main-content">
+    <h1 class="page-title">My Tasks</h1>
+
+    <section class="task-container">
+      <ul class="task-list">
+        {% for task in tasks %}
+
+          {% if task.completed %}
+            <li class="task completed">
+            <div class="task-left">
+              <input type="checkbox" class="toggle" checked />
+              <span class="task-title">{{task.title}}</span>
+            </div>
+            <div class="actions">
+              <a class="btn small" href="view_task.html">View</a>
+              <a class="btn small" href="edit_task.html">Edit</a>
+              <button class="btn small ghost">Delete</button>
+            </div>
+            </li>
+          {% else %}            
+              <li class="task">
+                <div class="task-left">
+                  <input type="checkbox" class="toggle" />
+                  <span class="task-title">{{task.title}}</span>
+                </div>
+                <div class="actions">
+                  <a class="btn small" href="view_task.html">View</a>
+                  <a class="btn small" href="edit_task.html">Edit</a>
+                  <button class="btn small ghost">Delete</button>
+                </div>
+              </li>
+            {% endif %}
+
+        {% endfor %}
+      </ul>
+    </section>
+
+    <div class="bottom-controls">
+      <a class="btn primary" href="{% url 'add_task' %}">+ Add New Task</a>
+      <button class="btn danger">Clear Completed</button>
+    </div>
+  </main>
+{% endblock body %}
+
