@@ -62,3 +62,7 @@ def delete_all_completed(request):
     for task in tasks:
         task.delete()
     return redirect("index")
+
+
+def about(request):
+    return render(request,"about.html")

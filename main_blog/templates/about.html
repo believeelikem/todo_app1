@@ -1,22 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>To-Do — About</title>
-</head>
-<body>
-  <nav class="navbar">
-    <div class="nav-inner">
-      <div class="logo">📝 To-Do App</div>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="add_task.html">Add Task</a></li>
-        <li><a href="about.html">About</a></li>
-      </ul>
-    </div>
-  </nav>
-
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Home page {%endblock title%}
+{% block body %}
   <main class="main-content">
     <h1 class="page-title">About This App</h1>
 
@@ -32,8 +17,4 @@
     </section>
   </main>
 
-  <footer class="site-footer">
-    <p>© 2025 To-Do — Built by you</p>
-  </footer>
-</body>
-</html>
+{% endblock body%}

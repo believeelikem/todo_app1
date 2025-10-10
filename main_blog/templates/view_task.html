@@ -20,9 +20,9 @@
       </ul>
 
       <div class="view-actions">
-        <a class="btn" href="edit_task.html">Edit</a>
-        <button class="btn ghost">Delete</button>
-        <a class="btn ghost" href="index.html">Back</a>
+        <a class="btn small" href="{% url 'edit_task' task.id %}">Edit</a>
+        <a href="{% url 'delete_task' task.id %}" class="btn small ghost">Delete</a>
+        <a class="btn ghost" href="{{request.META.HTTP_REFERER}}">Back</a>
       </div>
     </section>
   </main>

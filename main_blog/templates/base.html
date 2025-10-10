@@ -13,8 +13,8 @@
       <div class="logo">📝 To-Do App</div>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
-        <li><a href="add_task.html">Add Task</a></li>
-        <li><a href="about.html">About</a></li>
+        <li><a class="btn primary" href="{% url 'add_task' %}"> Add New Task</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
       </ul>
     </div>
   </nav>
