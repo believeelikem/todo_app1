@@ -12,6 +12,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.messages li {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    font-weight: 500;
+    width: 25%;
+    margin-left: 37.5%;
+}
+.success { background-color: #d1ffd1; color: green; }
+.error { background-color: #ffd1d1; color: red; }
+.warning { background-color: #fff0c2; color: #7a6300; }
+.info { background-color: #d1ecff; color: #004a7a; }
+
 #checked-btn{
   cursor: pointer;
   font-size: 20px;

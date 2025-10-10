@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from .models import Todo
+from django.contrib import messages
 
 
 
@@ -23,7 +24,8 @@ def create_task(request):
         description = request.POST.get("description")       
                 
         task = Todo.objects.create(title = title,description = description)
-        task.save()       
+        task.save()    
+        messages.success(request, "Task Created successfully!")   
         return redirect("index")      
     return render(request,"add_task.html")
 
@@ -36,6 +38,7 @@ def edit_task(request,id):
         task.title = title
         task.description = description       
         task.save()       
+        messages.success(request, "Task updated successfully!")
         return redirect("index")
     context = {
         'task':task
@@ -55,6 +58,7 @@ def check_uncheck(request,id):
 def delete_task(request,id):
     task = Todo.objects.get(id= id)
     task.delete()
+    messages.warning(request, f" '{task.title}' deleted successfully")
     return redirect("index")
     
 def delete_all_completed(request):
