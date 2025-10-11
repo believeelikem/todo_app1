@@ -1,13 +1,15 @@
 from django.shortcuts import render,redirect
-from .models import Todo
+from .models import Todo,Category
 from django.contrib import messages
 
 
 
 def index(request):
     tasks = Todo.objects.all().order_by("-created_at")
+    categories = Category.objects.all()
     context = {
-        "tasks":tasks
+        "tasks":tasks,
+        "categories":categories
     }
     return render(request,"index.html",context)
 
@@ -21,13 +23,25 @@ def view_task(request,id):
 def create_task(request):
     if request.method == "POST":
         title = request.POST.get("title")
-        description = request.POST.get("description")       
-                
-        task = Todo.objects.create(title = title,description = description)
+        description = request.POST.get("description")
+        category_id = request.POST.get("category") 
+        new_category = request.POST.get("new_category")
+        
+        print(f" id: {category_id}, new_val: {bool(new_category)}")
+        
+        if new_category:
+            category,created = Category.objects.get_or_create(category=new_category)
+        else:
+            category = Category.objects.get(id = category_id)
+                       
+        task = Todo.objects.create(title = title,description = description,category = category)
         task.save()    
-        messages.success(request, "Task Created successfully!")   
-        return redirect("index")      
-    return render(request,"add_task.html")
+        messages.success(request, "Task Created successfully!")
+           
+        return redirect("index")     
+    categories = Category.objects.all() 
+    return render(request,"add_task.html",{"categories":categories})
+
 
 def edit_task(request,id):
     task = Todo.objects.get(id = id)
