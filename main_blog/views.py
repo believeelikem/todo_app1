@@ -1,12 +1,31 @@
 from django.shortcuts import render,redirect
 from .models import Todo,Category
 from django.contrib import messages
+from django.db.models import Q
 
 
 
 def index(request):
     tasks = Todo.objects.all().order_by("-created_at")
     categories = Category.objects.all()
+    
+    if request.method == "GET":
+        search_term = request.GET.get("search")
+        category_id = request.GET.get("category")
+        status = request.GET.get("status")
+        
+        if search_term:
+            tasks = tasks.filter(
+                Q(title__icontains = search_term.lower()) | Q(description__icontains = search_term)
+            )                        
+        if category_id:
+            tasks = tasks.filter(category_id = category_id)              
+        if status:
+            tasks = tasks.filter(completed = False ) if status.lower() == "pending" \
+                else tasks.filter(completed = True )
+                
+                       
+    
     context = {
         "tasks":tasks,
         "categories":categories

@@ -1,53 +1,81 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %} Home page {%endblock title%}
+{% block title %} Home page {% endblock title %}
 {% block body %}
   <main class="main-content">
     <h1 class="page-title">My Tasks</h1>
-    {% for category in categories %}
-    <a href="?category={{category.id}}" style="margin-right: 10px;"> {{category.category}} </a>
-    {% endfor %}
 
+    <!-- 🔍 Search & Filter Form -->
+    <form method="GET" class="filter-form" style="margin-bottom: 20px;">
+      <input 
+        type="text" 
+        name="search" 
+        placeholder="Search by title..." 
+        value="{{ request.GET.search|default:'' }}"
+        style="padding: 6px; width: 200px; margin-right: 10px;"
+      >
+
+      <select name="category" style="padding: 6px; margin-right: 10px;">
+        <option value="">All Categories</option>
+        {% for category in categories %}
+          <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
+            {{ category.category }}
+          </option>
+        {% endfor %}
+      </select>
+
+      <select name="status" style="padding: 6px; margin-right: 10px;">
+        <option value="">All Tasks</option>
+        <option value="completed" {% if request.GET.status == 'completed' %}selected{% endif %}>Completed</option>
+        <option value="pending" {% if request.GET.status == 'pending' %}selected{% endif %}>Pending</option>
+      </select>
+
+      <button type="submit" class="btn primary small">Filter</button>
+    </form>
+
+    <!-- 🧩 Task List -->
     <section class="task-container">
       <ul class="task-list">
         {% for task in tasks %}
-
           {% if task.completed %}
             <li class="task completed">
-            <div class="task-left">
-              <a href="{% url 'check_uncheck' task.id %}"><span  id = "checked_btn" style="color:red; font-size: 20px; font-weight: bold;">&#8861;</span> </a>
-              <span  style="text-decoration: line-through;"  class="task-title">{{task.title}}</span>
-            </div>
-            <div class="actions">
-              <a class="btn small" href="{% url 'view_task' task.id %}">View</a>
-              <a class="btn small" href="{% url 'edit_task' task.id %}">Edit</a>
-              <button class="btn small ghost">Delete</button>
-            </div>
+              <div class="task-left">
+                <a href="{% url 'check_uncheck' task.id %}">
+                  <span id="checked_btn" style="color:red; font-size:20px; font-weight:bold;">&#8861;</span>
+                </a>
+                <span style="text-decoration:line-through;" class="task-title">{{ task.title }}</span>
+              </div>
+              <div class="actions">
+                <a class="btn small" href="{% url 'view_task' task.id %}">View</a>
+                <a class="btn small" href="{% url 'edit_task' task.id %}">Edit</a>
+                <button class="btn small ghost">Delete</button>
+              </div>
             </li>
-          {% else %}            
-              <li class="task">
-                <div class="task-left">
-                  <a href="{% url 'check_uncheck' task.id %}">
-                    <span  id = "checked_btn" style="color:  #4CAF50; font-size: 40px;">&#9900;</span>
-                  </a>
-                  <span  class="task-title">{{task.title}}</span>
-                </div>
-                <div class="actions">
-                  <a class="btn small" href="{% url 'view_task' task.id %}">View</a>
-                  <a class="btn small" href="{% url 'edit_task' task.id %}">Edit</a>
-
-                  <a href="{% url 'delete_task' task.id %}" class="btn small ghost">Delete</a>
-                </div>
-              </li>
-            {% endif %}
-
+          {% else %}
+            <li class="task">
+              <div class="task-left">
+                <a href="{% url 'check_uncheck' task.id %}">
+                  <span id="checked_btn" style="color:#4CAF50; font-size:40px;">&#9900;</span>
+                </a>
+                <span class="task-title">{{ task.title }}</span>
+              </div>
+              <div class="actions">
+                <a class="btn small" href="{% url 'view_task' task.id %}">View</a>
+                <a class="btn small" href="{% url 'edit_task' task.id %}">Edit</a>
+                <a href="{% url 'delete_task' task.id %}" class="btn small ghost">Delete</a>
+              </div>
+            </li>
+          {% endif %}
+        {% empty %}
+          <p>No tasks found.</p>
         {% endfor %}
       </ul>
     </section>
 
+    <!-- 🚀 Controls -->
     <div class="bottom-controls">
       <a class="btn primary" href="{% url 'add_task' %}">+ Add New Task</a>
-      <a class = "btn danger" href="{% url 'delete_all_completed' %}"> Clear Completed </a>
+      <a class="btn danger" href="{% url 'delete_all_completed' %}">Clear Completed</a>
     </div>
   </main>
 {% endblock body %}
