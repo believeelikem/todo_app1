@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from .models import Todo,Category
 from django.contrib import messages
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 
 
@@ -16,7 +17,8 @@ def index(request):
         
         if search_term:
             tasks = tasks.filter(
-                Q(title__icontains = search_term.lower()) | Q(description__icontains = search_term)
+                Q(title__icontains = search_term.lower()) |
+                Q(description__icontains = search_term)
             )                        
         if category_id:
             tasks = tasks.filter(category_id = category_id)              
@@ -24,11 +26,20 @@ def index(request):
             tasks = tasks.filter(completed = False ) if status.lower() == "pending" \
                 else tasks.filter(completed = True )
                 
+    p = Paginator(tasks,3)
+    page = request.GET.get("page")
+    
+    tasks = p.get_page(page)
+    
+    print(tasks.paginator.num_pages)
+        
+                
                        
     
     context = {
         "tasks":tasks,
-        "categories":categories
+        "categories":categories,
+        "page":page
     }
     return render(request,"index.html",context)
 

@@ -77,6 +77,51 @@
       <a class="btn primary" href="{% url 'add_task' %}">+ Add New Task</a>
       <a class="btn danger" href="{% url 'delete_all_completed' %}">Clear Completed</a>
     </div>
+    <nav aria-label="Page navigation">
+          <ul class="pagination">
+            {% if tasks.has_previous %}
+            <!-- First page -->
+              <li><a href="?page=1&search={{ request.GET.search }}&category={{ request.GET.category }}&status={{ request.GET.status }}">First</a></li>
+              <!-- Previous page -->
+              {% if tasks.number > 2%}
+                <li><a href="?page={{ tasks.previous_page_number|add:-1 }}&search={{ request.GET.search }}&category={{ request.GET.category }}&status={{ request.GET.status }}">
+                  &laquo;{{ tasks.previous_page_number|add:-1 }}
+                </a></li>
+              {% endif %}
+              <li><a href="?page={{ tasks.previous_page_number }}&search={{ request.GET.search }}&category={{ request.GET.category }}&status={{ request.GET.status }}">
+                &laquo;{{ tasks.previous_page_number }}
+              </a></li>
+
+            {% endif %}
+
+
+            <!-- Page numbers -->
+            <li><a style= 'border:3px solid brown;' href="?page={{tasks.number}}&search={{ request.GET.search }}&category={{ request.GET.category }}&status={{ request.GET.status }}">
+              {{tasks.number}}
+            </a></li>
+
+            {% if tasks.has_next %}
+
+
+              <li><a href="?page={{ tasks.next_page_number }}&search={{ request.GET.search }}&category={{ request.GET.category }}&status={{ request.GET.status }}">
+                {{ tasks.next_page_number }} &raquo;
+              </a></li>
+
+              {% if  tasks.paginator.num_pages|add:-2  > tasks.number %}
+                <li><a href="?page={{ tasks.next_page_number|add:1 }}&search={{ request.GET.search }}&category={{ request.GET.category }}&status={{ request.GET.status }}">
+                  {{ tasks.next_page_number|add:1 }} &raquo;
+                </a></li>
+              {% endif %}
+              <li><a href="?page={{tasks.paginator.num_pages}}&search={{ request.GET.search }}&category={{ request.GET.category }}&status={{ request.GET.status }}">
+                 Last 
+                </a></li>
+
+            {% endif %}
+  
+          </ul>
+    </nav>
+
+
   </main>
 {% endblock body %}
 
