@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models  import User
 
 
 
@@ -11,6 +11,7 @@ class Category(models.Model):
 
 
 class Todo(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=300)
     completed = models.BooleanField(default=False)

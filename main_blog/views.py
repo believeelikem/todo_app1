@@ -6,6 +6,7 @@ from django.core.paginator import Paginator
 
 
 
+
 def index(request):
     tasks = Todo.objects.all().order_by("-created_at")
     categories = Category.objects.all()
