@@ -3,12 +3,12 @@ from .models import Todo,Category
 from django.contrib import messages
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
 
-
-
+@login_required
 def index(request):
-    tasks = Todo.objects.all().order_by("-created_at")
+    tasks = Todo.objects.filter(user = request.user).order_by("-created_at")
     categories = Category.objects.all()
     
     if request.method == "GET":
@@ -34,9 +34,8 @@ def index(request):
     
     print(tasks.paginator.num_pages)
         
-                
-                       
-    
+                    
+        
     context = {
         "tasks":tasks,
         "categories":categories,
@@ -65,7 +64,7 @@ def create_task(request):
         else:
             category = Category.objects.get(id = category_id)
                        
-        task = Todo.objects.create(title = title,description = description,category = category)
+        task = Todo.objects.create(title = title,description = description,category = category,user = request.user)
         task.save()    
         messages.success(request, "Task Created successfully!")
            

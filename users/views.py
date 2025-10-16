@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .password import is_strong
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth import login,logout,authenticate
 # Create your views here.
 
 
@@ -37,3 +38,28 @@ def register(request):
         
     
     return render(request,'users/register.html')
+
+
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        
+        if username and password:
+            user = authenticate(request,username = username,password = password)
+            
+            if user:
+                login(request,user)
+                messages.info(request,f"Account logged in for {user}")
+                return redirect("index")
+            
+            else:
+                messages.info(request,"Invalid User credentials")
+                
+            
+    return render(request,"users/login.html")
+
+def logout_view(request):
+    messages.info(request,f"{request.user} succesfully logged out")
+    logout(request)
+    return redirect("index")
