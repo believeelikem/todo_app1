@@ -14,10 +14,16 @@
       <div class="logo">📝 To-Do App</div>
       <ul class="nav-links">
         <li><a href="/">Home</a></li>
+        {% if user.is_authenticated %}
         <li><a class="btn primary" href="{% url 'add_task' %}"> Add New Task</a></li>
 
-        <li><a href="{% url 'about' %}">About</a></li>
         <li><a class="btn primary" href="{% url 'logout' %}"> Logout</a></li>
+        
+        <li><a class="btn primary" href="{% url 'profile' user.username %}"> Profile</a></li>
+        {% else%}
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a class="btn primary" href="{% url 'login' %}"> Login </a></li>
+        {% endif %}
 
       </ul>
     </div>

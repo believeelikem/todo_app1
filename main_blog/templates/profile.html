@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}  Profile Page {% endblock title %} 
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'main_blog/profile.css' %}">
+{% endblock extra_styles %}
+
+{% block body %}
+  <div class="profile-page">
+    <div class="profile-container">
+      <div class="profile-header">
+        <!-- <div class="avatar">
+          <img src="avatar.png" alt="User Avatar">
+        </div> -->
+        <div class="user-info">
+          <h2>{{user.username}}</h2>
+          <p>default@example.com</p>
+        </div>
+      </div>
+
+      <div class="profile-details">
+        <h3>Account Details</h3>
+        <ul>
+          <li><strong>Username:</strong>{{user.username}}</li>
+          <li><strong>Email:</strong> default@example.com</li>
+          <li><strong>Total tasks:</strong>{{ user.tasks.all|length}}</li>
+          <li><strong>Completed tasks:</strong> {{completed_tasks}} </li>
+          <li><strong>Pending tasks:</strong> {{pending_tasks}} </li>
+          <li><strong>Date Joined:</strong> {{user.date_joined}}</li>
+          <li><strong>Last Login:</strong> {{user.last_login}}</li>
+        </ul>
+      </div>
+
+      <div class="profile-actions">
+        <button>Logout</button>
+      </div>
+    </div>
+  </div>
+{% endblock body %}

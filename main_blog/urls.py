@@ -10,5 +10,5 @@ urlpatterns = [
     path("check-uncheck/<int:id>/",views.check_uncheck,name="check_uncheck"),
     path("delete-task/<int:id>/",views.delete_task,name="delete_task"),
     path("delete-completed/",views.delete_all_completed,name = "delete_all_completed"),
-    
+    path("profile/<str:username>",views.profile, name="profile")    
 ]

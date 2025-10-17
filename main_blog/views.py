@@ -4,11 +4,16 @@ from django.contrib import messages
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
-
-@login_required
 def index(request):
-    tasks = Todo.objects.filter(user = request.user).order_by("-created_at")
+    if request.user.is_authenticated:
+        tasks = Todo.objects.filter(user = request.user).order_by("-created_at")
+        print("authenticated run")
+    else:
+        print("unauthenticated run")
+        tasks = Todo.objects.filter().order_by("-created_at")
+
     categories = Category.objects.all()
     
     if request.method == "GET":
@@ -43,6 +48,8 @@ def index(request):
     }
     return render(request,"index.html",context)
 
+
+@login_required
 def view_task(request,id):
     task = Todo.objects.get(id = id)
     context = {
@@ -50,6 +57,8 @@ def view_task(request,id):
     }    
     return render(request,"view_task.html",context)
 
+
+@login_required
 def create_task(request):
     if request.method == "POST":
         title = request.POST.get("title")
@@ -73,6 +82,8 @@ def create_task(request):
     return render(request,"add_task.html",{"categories":categories})
 
 
+
+@login_required
 def edit_task(request,id):
     task = Todo.objects.get(id = id)
     if request.method == "POST":
@@ -89,6 +100,8 @@ def edit_task(request,id):
     }      
     return render(request,"edit_task.html",context)
 
+
+@login_required
 def check_uncheck(request,id):
     task = Todo.objects.get(id = id)
     
@@ -99,18 +112,33 @@ def check_uncheck(request,id):
     task.save()
     return redirect("index")
 
+@login_required
 def delete_task(request,id):
     task = Todo.objects.get(id= id)
     task.delete()
     messages.warning(request, f" '{task.title}' deleted successfully")
     return redirect("index")
-    
+
+@login_required    
 def delete_all_completed(request):
     tasks = Todo.objects.filter(completed = True)
     for task in tasks:
         task.delete()
     return redirect("index")
 
+
+@login_required 
+def profile(request,username):
+    
+    user = User.objects.get(username = username)
+    tasks = Todo.objects.filter(user= user)
+    completed_tasks = tasks.filter(completed = True).count()
+    context = {
+        "user":user,
+        "completed_tasks":completed_tasks,
+        "pending_tasks":  tasks.count() - completed_tasks 
+    }
+    return render(request,"profile.html",context)
 
 def about(request):
     return render(request,"about.html")

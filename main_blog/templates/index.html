@@ -45,11 +45,13 @@
                 </a>
                 <span style="text-decoration:line-through;" class="task-title">{{ task.title }}</span>
               </div>
+              {% if user.is_authenticated %}
               <div class="actions">
                 <a class="btn small" href="{% url 'view_task' task.id %}">View</a>
                 <a class="btn small" href="{% url 'edit_task' task.id %}">Edit</a>
                 <button class="btn small ghost">Delete</button>
               </div>
+              {% endif %}
             </li>
           {% else %}
             <li class="task">
@@ -59,11 +61,13 @@
                 </a>
                 <span class="task-title">{{ task.title }}</span>
               </div>
+              {% if user.is_authenticated %}
               <div class="actions">
                 <a class="btn small" href="{% url 'view_task' task.id %}">View</a>
                 <a class="btn small" href="{% url 'edit_task' task.id %}">Edit</a>
                 <a href="{% url 'delete_task' task.id %}" class="btn small ghost">Delete</a>
               </div>
+              {% endif %}
             </li>
           {% endif %}
         {% empty %}
@@ -73,17 +77,19 @@
     </section>
 
     <!-- 🚀 Controls -->
+     {% if user.is_authenticated %}
     <div class="bottom-controls">
       <a class="btn primary" href="{% url 'add_task' %}">+ Add New Task</a>
       <a class="btn danger" href="{% url 'delete_all_completed' %}">Clear Completed</a>
     </div>
+    {% endif %}
     <nav aria-label="Page navigation">
           <ul class="pagination">
             {% if tasks.has_previous %}
             <!-- First page -->
               <li><a href="?page=1&search={{ request.GET.search }}&category={{ request.GET.category }}&status={{ request.GET.status }}">First</a></li>
               <!-- Previous page -->
-              {% if tasks.number > 2%}
+              {% if tasks.number > 2 %}
                 <li><a href="?page={{ tasks.previous_page_number|add:-1 }}&search={{ request.GET.search }}&category={{ request.GET.category }}&status={{ request.GET.status }}">
                   &laquo;{{ tasks.previous_page_number|add:-1 }}
                 </a></li>
@@ -91,7 +97,6 @@
               <li><a href="?page={{ tasks.previous_page_number }}&search={{ request.GET.search }}&category={{ request.GET.category }}&status={{ request.GET.status }}">
                 &laquo;{{ tasks.previous_page_number }}
               </a></li>
-
             {% endif %}
 
 
