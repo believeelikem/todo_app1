@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}  Profile Update Page {% endblock title %} 
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'users/css/styles.css' %}">
+{% endblock extra_styles %}
+
+{% block body %}
+  <main class="page">
+    <form class="card" id="regForm" novalidate method="POST">
+      {% csrf_token %}
+      <h1 class="card__title">Create an account</h1>
+
+      <label class="field">
+        <span class="field__label">Username</span>
+        <input
+          id="username"
+          name="username"
+          class="field__input"
+          type="text"
+          required
+          minlength="3"
+          placeholder="your_username"
+          autocomplete="username"
+        />
+        <small class="field__hint">3–30 characters</small>
+      </label>
+
+      <label class="field">
+        <span class="field__label">Password</span>
+        <div class="pw-row">
+          <input
+            id="p1"
+            name="p1"
+            class="field__input"
+            type="password"
+            required
+            minlength="8"
+            placeholder="At least 8 characters"
+            autocomplete="new-password"
+          />
+          <button type="button" class="toggle" id="toggleP1" aria-label="Show password">👁️</button>
+        </div>
+        <small class="field__hint">Use letters, numbers, and a symbol for strength</small>
+      </label>
+
+      <label class="field">
+        <span class="field__label">Confirm password</span>
+        <div class="pw-row">
+          <input
+            id="p2"
+            name="p2"
+            class="field__input"
+            type="password"
+            required
+            minlength="8"
+            placeholder="Re-enter password"
+            autocomplete="new-password"
+            aria-describedby="pwMatchMsg"
+          />
+          <button type="button" class="toggle" id="toggleP2" aria-label="Show password">👁️</button>
+        </div>
+        <div id="pwMatchMsg" class="field__msg" aria-live="polite"></div>
+      </label>
+
+      <button id="submitBtn" class="btn" type="submit" disabled>Register</button>
+
+      <p class="small">By registering you agree to our <a href="#">terms</a>.</p>
+    </form>
+  </main>
+{% endblock body %}

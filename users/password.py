@@ -21,4 +21,6 @@ def is_strong(password):
     
 
 print(is_strong("A2344444a!"))
+
+# print("walk-doghouuse".startswith("walk-dog"))
     

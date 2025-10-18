@@ -9,9 +9,9 @@ from django.contrib.auth.models import User
 def index(request):
     if request.user.is_authenticated:
         tasks = Todo.objects.filter(user = request.user).order_by("-created_at")
-        print("authenticated run")
+        # print("authenticated run")
     else:
-        print("unauthenticated run")
+        # print("unauthenticated run")
         tasks = Todo.objects.filter().order_by("-created_at")
 
     categories = Category.objects.all()
@@ -50,8 +50,8 @@ def index(request):
 
 
 @login_required
-def view_task(request,id):
-    task = Todo.objects.get(id = id)
+def view_task(request,slug):
+    task = Todo.objects.get(slug = slug)
     context = {
         "task":task
     }    
@@ -66,7 +66,7 @@ def create_task(request):
         category_id = request.POST.get("category") 
         new_category = request.POST.get("new_category")
         
-        print(f" id: {category_id}, new_val: {bool(new_category)}")
+        # print(f" id: {category_id}, new_val: {bool(new_category)}")
         
         if new_category:
             category,created = Category.objects.get_or_create(category=new_category)
@@ -74,7 +74,7 @@ def create_task(request):
             category = Category.objects.get(id = category_id)
                        
         task = Todo.objects.create(title = title,description = description,category = category,user = request.user)
-        task.save()    
+        # task.save()    
         messages.success(request, "Task Created successfully!")
            
         return redirect("index")     
@@ -84,8 +84,8 @@ def create_task(request):
 
 
 @login_required
-def edit_task(request,id):
-    task = Todo.objects.get(id = id)
+def edit_task(request,slug):
+    task = Todo.objects.get(slug = slug)
     if request.method == "POST":
         title = request.POST.get("title")
         description = request.POST.get("description")
@@ -102,8 +102,8 @@ def edit_task(request,id):
 
 
 @login_required
-def check_uncheck(request,id):
-    task = Todo.objects.get(id = id)
+def check_uncheck(request,slug):
+    task = Todo.objects.get(slug = slug)
     
     if not task.completed:
         task.completed = True
@@ -113,8 +113,8 @@ def check_uncheck(request,id):
     return redirect("index")
 
 @login_required
-def delete_task(request,id):
-    task = Todo.objects.get(id= id)
+def delete_task(request,slug):
+    task = Todo.objects.get(slug = slug)
     task.delete()
     messages.warning(request, f" '{task.title}' deleted successfully")
     return redirect("index")
