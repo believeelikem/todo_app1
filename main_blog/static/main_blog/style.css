@@ -129,7 +129,7 @@ body {
   border-radius: 8px;
   background: #f8fafc;
 }
-.task-left { display: flex; align-items: center; gap: 12px; }
+.task-left { display: flex; align-items: center; gap: 12px; height: 50px; }
 .toggle { width: 18px; height: 18px; }
 .task-title { font-weight: 500; color: #0f172a; }
 .task.completed .task-title { text-decoration: line-through; color: #94a3b8; }
