@@ -103,6 +103,7 @@ def edit_task(request,slug):
 
 @login_required
 def check_uncheck(request,slug):
+    print(request.META.get("HTTP_REFERER"))
     task = Todo.objects.get(slug = slug)
     
     if not task.completed:
@@ -110,7 +111,7 @@ def check_uncheck(request,slug):
     else:
         task.completed = False
     task.save()
-    return redirect("index")
+    return redirect(request.META["HTTP_REFERER"])
 
 @login_required
 def delete_task(request,slug):

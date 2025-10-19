@@ -43,7 +43,7 @@
                 <a href="{% url 'check_uncheck' task.slug %}">
                   <span id="checked_btn" style="color:red; font-size:20px; font-weight:bold;">&#8861;</span>
                 </a>
-                <span style="text-decoration:line-through;" class="task-title">{{ task.title }}</span>
+                <span style="text-decoration:line-through;" class="task-title" value="{{request.GET.}}" >{{ task.title }}</span>
               </div>
               {% if user.is_authenticated %}
               <div class="actions">
