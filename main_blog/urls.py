@@ -10,5 +10,6 @@ urlpatterns = [
     path("check-uncheck/<slug:slug>/",views.check_uncheck,name="check_uncheck"),
     path("delete-task/<slug:slug>/",views.delete_task,name="delete_task"),
     path("delete-completed/",views.delete_all_completed,name = "delete_all_completed"),
-    path("profile/<str:username>",views.profile, name="profile")    
+    path("profile/<str:username>",views.profile, name="profile"),
+    path('crash/', views.crash)    
 ]

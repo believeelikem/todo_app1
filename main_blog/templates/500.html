@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'main_blog/404.css' %}">
+{% endblock extra_styles %}
+
+{% block title %}Server Error{% endblock title %}
+{% block body %}
+<h1>500</h1>
+<p>Something went wrong on our end.</p>
+
+<h3>Here are your latest tasks:</h3>
+<ul>
+  {% for task in recent_tasks %}
+    <li>{{ task.title }}</li>
+  {% empty %}
+    <li>No recent tasks found.</li>
+  {% endfor %}
+</ul>
+
+<a href="/">← Back to Home</a>
+{% endblock body %}

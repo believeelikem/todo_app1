@@ -104,6 +104,7 @@ def edit_task(request,slug):
 @login_required
 def check_uncheck(request,slug):
     print(request.META.get("HTTP_REFERER"))
+    print(request.get_full_path())
     task = Todo.objects.get(slug = slug)
     
     if not task.completed:
@@ -143,3 +144,17 @@ def profile(request,username):
 
 def about(request):
     return render(request,"about.html")
+
+
+def custom_404(request, exception):
+    recent_tasks = Todo.objects.order_by("-id")[:5]
+    return render(request, "404.html", {"recent_tasks": recent_tasks}, status=404)
+
+def custom_500(request):
+    recent_tasks = Todo.objects.order_by("-id")[:5]
+    return render(request, "500.html", {"recent_tasks": recent_tasks}, status=500)
+
+
+def crash(request):
+    print("called")
+    1 / 0
