@@ -10,6 +10,8 @@ from django.contrib.auth import login,logout,authenticate
 
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect("index")
     if request.method == "POST":
         username =request.POST.get("username")
         password1 =request.POST.get("p1")
@@ -41,6 +43,8 @@ def register(request):
 
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect("index")
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -51,7 +55,9 @@ def login_view(request):
             if user:
                 login(request,user)
                 messages.info(request,f"Account logged in for {user}")
-                return redirect("index")
+                next_url = request.GET.get("next","index")
+                print(next_url)
+                return redirect(next_url)
             
             else:
                 messages.info(request,"Invalid User credentials")
